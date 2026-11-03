@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Inject: two out-of-band changes, as if made in the console.
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 

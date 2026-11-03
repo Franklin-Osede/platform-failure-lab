@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Inject: make the state forget the instance. Usage: inject.sh A|B
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 

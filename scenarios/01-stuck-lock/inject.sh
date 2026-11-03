@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Inject: start an apply that holds the lock, then SIGKILL it mid-operation.
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 

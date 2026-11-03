@@ -1,0 +1,3 @@
+# Run shellcheck from the repo root (`make lint`), so the
+# `# shellcheck source=scripts/lib.sh` directives resolve.
+external-sources=true

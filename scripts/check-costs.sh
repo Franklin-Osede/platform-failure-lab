@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Lists anything from this lab that can still cost money. Exit 1 if instances remain.
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/lib.sh"
 require_tools
 
@@ -9,7 +10,8 @@ echo "Region: $region"
 echo "--- EC2 instances tagged Project=$PROJECT_TAG (not terminated)"
 ids="$(lab_instance_ids)"
 if [[ -n "$ids" ]]; then
-  aws ec2 describe-instances --region "$region" --instance-ids $ids \
+  read -r -a id_list <<<"$ids"
+  aws ec2 describe-instances --region "$region" --instance-ids "${id_list[@]}" \
     --query 'Reservations[].Instances[].[InstanceId,State.Name,InstanceType]' --output table
 else
   echo "none"
@@ -21,7 +23,7 @@ aws ec2 describe-security-groups --region "$region" \
   --query 'SecurityGroups[].[GroupId,GroupName]' --output text || true
 
 echo "--- State bucket (pennies; kept between sessions on purpose)"
-echo "$(state_bucket)"
+state_bucket
 
 if [[ -n "$ids" ]]; then
   echo "WARNING: lab instances are still running. Run 'make down'." >&2

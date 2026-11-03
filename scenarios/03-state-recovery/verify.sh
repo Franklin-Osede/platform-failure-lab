@@ -5,6 +5,7 @@
 #                                 and Terraform wants to create it again
 #   verify.sh                  -> recovered: state tracks the ORIGINAL instance,
 #                                 nothing pending, no duplicate
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 
@@ -39,6 +40,7 @@ case "$mode" in
 
     capture "$SCENARIO" verify-failure-plan tf plan -detailed-exitcode -input=false
     check "plan wants changes (exit 2)" "2" "$LAST_RC"
+    # shellcheck disable=SC2012  # our own timestamped filenames, no odd characters
     log="$(ls -t "$(evidence_dir "$SCENARIO")"/*-verify-failure-plan.log | head -1)"
     if grep -q 'aws_instance.lab will be created' "$log"; then plan_cause="recreate instance"; else plan_cause="other"; fi
     check "plan would create the existing instance again" "recreate instance" "$plan_cause"

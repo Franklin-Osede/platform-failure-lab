@@ -43,7 +43,11 @@ Scripts **inject, observe and verify**. Recovery steps that need a judgement cal
 
 ## Prerequisites
 
-- Terraform ≥ 1.11 (S3 native locking), AWS CLI v2, `jq`, `perl`, `make`
+- Terraform ≥ 1.11 (S3 native locking), AWS CLI v2, `jq`, `perl`, `make`,
+  `shellcheck`. On macOS, install Terraform from `hashicorp/tap`: the
+  homebrew-core formula is frozen at 1.5.7, which is too old for this repo.
+- `make lint` runs every offline check (fmt, init without backend, validate,
+  shellcheck) without touching AWS.
 - A **dedicated** AWS account for labs, with a default VPC in the chosen region
   (default `eu-west-1`) and a budget alert set
 - Credentials for that account in your shell (e.g. `aws sso login --profile lab`

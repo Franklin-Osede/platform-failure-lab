@@ -66,7 +66,8 @@ Captures both plans and the actual security group rules from AWS.
 ```bash
 terraform -chdir=infra apply                 # puts the Owner tag back
 SG=$(terraform -chdir=infra output -raw security_group_id)
-aws ec2 revoke-security-group-ingress --group-id "$SG" \
+REGION=$(awk -F'"' '/^region/{print $2}' infra/backend.hcl)
+aws ec2 revoke-security-group-ingress --region "$REGION" --group-id "$SG" \
   --ip-permissions 'IpProtocol=tcp,FromPort=22,ToPort=22,IpRanges=[{CidrIp=203.0.113.0/24}]'
 terraform -chdir=infra apply -refresh-only   # record reality in state; changes no infra
 ```
@@ -91,8 +92,8 @@ the next normal plan still proposes to revert, because the code still disagrees.
 - `plan -detailed-exitcode` = 0 (code matches state)
 - the security group has zero ingress rules in AWS
 
-Regression guard: in Deliverable 2 the refresh-only check runs on a schedule in
-GitHub Actions and opens an issue when it returns 2.
+Regression guard: in scenario 06 (Lab 2) the refresh-only check runs on a
+schedule in GitHub Actions and opens an issue when it returns 2.
 
 ## Cleanup
 
@@ -108,5 +109,7 @@ _Paste curated excerpts from `evidence/02-drift/` here._
 
 "`plan` exit code 2 doesn't mean drift — it can just mean someone changed the code.
 I detect drift with refresh-only, and I know its blind spot: anything Terraform
-doesn't manage. In the lab, a hand-added SSH rule never showed up as a planned
-change."
+doesn't manage. In the lab, <what the Actual column showed for the hand-added
+SSH rule>."
+
+_Finish this only from verified Actual results; until then it is a prediction._

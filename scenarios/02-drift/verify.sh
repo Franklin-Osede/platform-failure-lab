@@ -3,6 +3,7 @@
 #   verify.sh                  -> recovered: no drift, nothing pending, no ingress
 #   verify.sh --expect-failure -> injected: both out-of-band changes really exist in AWS
 #                                 and refresh-only reports drift
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 
@@ -13,6 +14,7 @@ region="$(aws_region)"
 sg_id="$(tf output -raw security_group_id)"
 instance_id="$(tf output -raw instance_id)"
 
+# shellcheck disable=SC2016  # backticks are JMESPath literals, not shell
 ingress="$(aws ec2 describe-security-group-rules --region "$region" \
   --filters "Name=group-id,Values=$sg_id" \
   --query 'length(SecurityGroupRules[?IsEgress==`false`])' --output text)"

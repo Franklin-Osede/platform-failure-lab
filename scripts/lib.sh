@@ -8,6 +8,7 @@ INFRA_DIR="$LAB_ROOT/infra"
 STATE_KEY="platform-failure-lab/infra/terraform.tfstate"
 LOCK_KEY="${STATE_KEY}.tflock"
 PROJECT_TAG="platform-failure-lab"
+# shellcheck disable=SC2034  # read by the sourcing script after capture()
 LAST_RC=0
 
 tf() { terraform -chdir="$INFRA_DIR" "$@"; }

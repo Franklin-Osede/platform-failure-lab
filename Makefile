@@ -1,4 +1,4 @@
-.PHONY: bootstrap init up down costs fmt validate
+.PHONY: bootstrap init up down costs fmt validate lint
 
 # 1. Create the state bucket (local state) and write infra/backend.hcl
 bootstrap:
@@ -29,3 +29,13 @@ fmt:
 validate:
 	terraform -chdir=infra validate
 	terraform -chdir=bootstrap validate
+
+# Offline checks only: no AWS calls, no backend, no credentials needed.
+# Also creates/updates the .terraform.lock.hcl files (commit them).
+lint:
+	terraform fmt -check -recursive
+	terraform -chdir=infra init -backend=false -input=false
+	terraform -chdir=infra validate
+	terraform -chdir=bootstrap init -backend=false -input=false
+	terraform -chdir=bootstrap validate
+	shellcheck scripts/*.sh scenarios/*/*.sh

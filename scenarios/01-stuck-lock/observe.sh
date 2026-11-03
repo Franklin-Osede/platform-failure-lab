@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Observe: capture symptoms and evidence. Changes nothing.
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 

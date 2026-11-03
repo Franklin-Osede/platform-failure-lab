@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Observe: compare what each plan mode reports with what AWS actually has.
+# shellcheck source=scripts/lib.sh
 source "$(dirname "$0")/../../scripts/lib.sh"
 require_tools
 
