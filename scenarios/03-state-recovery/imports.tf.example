@@ -1,0 +1,8 @@
+# Copy to infra/imports.tf, set the real instance ID, plan, apply, then delete
+# the file. The import block is declarative: plan shows "1 to import" before
+# anything is touched.
+
+import {
+  to = aws_instance.lab
+  id = "i-REPLACE_ME"
+}

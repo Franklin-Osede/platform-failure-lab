@@ -1,0 +1,10 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+infra/backend.hcl
+infra/imports.tf
+
+# Raw evidence stays local. Review it, then paste curated excerpts
+# into the scenario README's "Results" section.
+evidence/
